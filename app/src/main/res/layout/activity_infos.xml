@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:background="#CAD6F1"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:layout_marginBottom="50dp"
+        android:textColor="#1C276F"
+        android:fontFamily="@font/poplar"
+        android:text="HIGHSCORES"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textColor="#000"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poplar"
+        android:text="The difficulty level changes the number of cards you have to play before being able to draw new ones."/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/table"
+        android:padding="30dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#000"
+            android:fontFamily="@font/poplar"
+            android:text="Super Easy : 2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#000"
+            android:fontFamily="@font/poplar"
+            android:text="Easy : 2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#000"
+            android:fontFamily="@font/poplar"
+            android:text="Average : 3"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#000"
+            android:fontFamily="@font/poplar"
+            android:text="Hard : 3"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textColor="#000"
+        android:fontFamily="@font/poplar"
+        android:text="With the Super Easy mode, you'll get 3 jokers. By activating a joker, you'll be able to play any card on any pile."/>
+</LinearLayout>

@@ -38,4 +38,8 @@ public class HomeActivity extends AppCompatActivity {
         i.putExtra("difficulty", Integer.parseInt(v.getTag().toString()));
         startActivity(i);
     }
+
+    public void seeInfo(View view){
+        startActivity(new Intent(this, InfoActivity.class));
+    }
 }

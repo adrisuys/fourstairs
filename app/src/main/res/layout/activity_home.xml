@@ -2,243 +2,266 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:padding="20dp"
-    android:background="#CAD6F1">
-
-    <TextView
-        android:tag="1"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:fontFamily="@font/poplar"
-        android:textColor="#7D9CE4"
-        android:onClick="newGame"
-        android:text="PLAY SUPER EASY"/>
-
-    <View
-        android:layout_width="170dp"
-        android:layout_height="2dp"
-        android:background="#7D9CE4"
-        android:layout_marginBottom="30dp"/>
-
-    <TextView
-        android:tag="2"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:fontFamily="@font/poplar"
-        android:textColor="#5A85E6"
-        android:onClick="newGame"
-        android:text="PLAY EASY"/>
-
-    <View
-        android:layout_width="105dp"
-        android:layout_height="2dp"
-        android:background="#5A85E6"
-        android:layout_marginBottom="30dp"/>
-
-    <TextView
-        android:tag="3"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:fontFamily="@font/poplar"
-        android:textColor="#255AD5"
-        android:onClick="newGame"
-        android:text="PLAY AVERAGE"/>
-
-    <View
-        android:layout_width="145dp"
-        android:layout_height="2dp"
-        android:background="#255AD5"
-        android:layout_marginBottom="30dp"/>
-
-    <TextView
-        android:tag="4"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:fontFamily="@font/poplar"
-        android:textColor="#082466"
-        android:onClick="newGame"
-        android:text="PLAY HARD"/>
-
-    <View
-        android:layout_width="105dp"
-        android:layout_height="2dp"
-        android:background="#082466"
-        android:layout_marginBottom="30dp"/>
+    android:background="#CAD6F1"
+    android:weightSum="12">
 
     <LinearLayout
-        android:background="@drawable/table"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="right">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_info_black_24dp"
+            android:onClick="seeInfo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:orientation="vertical"
-        android:layout_margin="30dp">
+        android:gravity="center">
 
         <TextView
+            android:tag="1"
+            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:textSize="25dp"
-            android:textColor="#000"
             android:fontFamily="@font/poplar"
-            android:text="HIGHSCORES"/>
+            android:textColor="#7D9CE4"
+            android:onClick="newGame"
+            android:text="PLAY SUPER EASY"/>
 
         <View
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="170dp"
             android:layout_height="2dp"
-            android:background="#000"/>
+            android:background="#7D9CE4"
+            android:layout_marginBottom="30dp"/>
 
-        <LinearLayout
+        <TextView
+            android:tag="2"
+            android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="12"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:fontFamily="@font/poplar"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:text="SUPER EASY : "/>
-
-            <TextView
-                android:id="@+id/hs_super_easy"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poplar"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:text="10"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:fontFamily="@font/poplar"
+            android:textColor="#5A85E6"
+            android:onClick="newGame"
+            android:text="PLAY EASY"/>
 
         <View
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="105dp"
             android:layout_height="2dp"
-            android:background="#000"/>
+            android:background="#5A85E6"
+            android:layout_marginBottom="30dp"/>
 
-        <LinearLayout
+        <TextView
+            android:tag="3"
+            android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="12"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:fontFamily="@font/poplar"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:text="EASY : "/>
-
-            <TextView
-                android:id="@+id/hs_easy"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poplar"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:text="10"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:fontFamily="@font/poplar"
+            android:textColor="#255AD5"
+            android:onClick="newGame"
+            android:text="PLAY AVERAGE"/>
 
         <View
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="145dp"
             android:layout_height="2dp"
-            android:background="#000"/>
+            android:background="#255AD5"
+            android:layout_marginBottom="30dp"/>
 
-        <LinearLayout
+        <TextView
+            android:tag="4"
+            android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="12"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="0dp"
-                android:fontFamily="@font/poplar"
-                android:layout_weight="6"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:textAlignment="center"
-                android:text="AVERAGE : "/>
-
-            <TextView
-                android:id="@+id/hs_avg"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:fontFamily="@font/poplar"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:text="10"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:fontFamily="@font/poplar"
+            android:textColor="#082466"
+            android:onClick="newGame"
+            android:text="PLAY HARD"/>
 
         <View
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="105dp"
             android:layout_height="2dp"
-            android:background="#000"/>
+            android:background="#082466"
+            android:layout_marginBottom="30dp"/>
 
         <LinearLayout
+            android:background="@drawable/table"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="12"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="30dp">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:fontFamily="@font/poplar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="DIFFICULT : "/>
+                android:textSize="25dp"
+                android:textColor="#000"
+                android:fontFamily="@font/poplar"
+                android:text="HIGHSCORES"/>
 
-            <TextView
-                android:id="@+id/hs_difficult"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:fontFamily="@font/poplar"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:text="10"/>
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="12"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poplar"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:text="SUPER EASY : "/>
+
+                <TextView
+                    android:id="@+id/hs_super_easy"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poplar"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:text="10"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="12"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poplar"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:text="EASY : "/>
+
+                <TextView
+                    android:id="@+id/hs_easy"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poplar"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:text="10"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="12"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:fontFamily="@font/poplar"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:textAlignment="center"
+                    android:text="AVERAGE : "/>
+
+                <TextView
+                    android:id="@+id/hs_avg"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:fontFamily="@font/poplar"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:text="10"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="12"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:fontFamily="@font/poplar"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="DIFFICULT : "/>
+
+                <TextView
+                    android:id="@+id/hs_difficult"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:fontFamily="@font/poplar"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="10"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
 
     </LinearLayout>
 
