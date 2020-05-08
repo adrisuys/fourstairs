@@ -12,6 +12,7 @@ public class Game {
     private Presenter presenter;
     private int nbCardPlayedPerRound;
     private int minCardPlayedPerRound;
+    private boolean isJokerActivated;
 
     public Game(Presenter presenter, int i){
         clusters = new int[]{-1, -1, -1, -1};
@@ -22,6 +23,7 @@ public class Game {
         drawCards();
         nbCardPlayedPerRound = 0;
         minCardPlayedPerRound = i;
+        isJokerActivated = false;
     }
 
     public List<Integer> getCards() {
@@ -36,6 +38,7 @@ public class Game {
         boolean isChoiceValid = checkForValidation(chosenCardIndex, clusterIndex);
         if (isChoiceValid){
             clusters[clusterIndex] = cards.remove(chosenCardIndex);
+            isJokerActivated = false;
             nbCardPlayedPerRound++;
             checkForEnd();
         } else {
@@ -52,6 +55,11 @@ public class Game {
     }
 
     public boolean isGameBlocked(){
+        if (cards.size() < 8){
+            if (!deck.isEmpty()){
+                return false;
+            }
+        }
         for (int i = 0; i < cards.size(); i++){
             for (int j = 0; j < clusters.length; j++){
                 if (j == 0 || j == 1){
@@ -72,6 +80,28 @@ public class Game {
             }
         }
         return valids;
+    }
+
+    public void activateJoker() {
+        isJokerActivated = true;
+    }
+
+    public boolean isJokerActive() {
+        return isJokerActivated;
+    }
+
+    public void drawCard(){
+        if (!deck.isEmpty()){
+            if (nbCardPlayedPerRound < minCardPlayedPerRound){
+                presenter.displayCannotDraw();
+            } else {
+                for (int i = 0; i < nbCardPlayedPerRound; i++){
+                    cards.add(deck.remove(0));
+                }
+                nbCardPlayedPerRound = 0;
+                presenter.onValidPlay();
+            }
+        }
     }
 
     private boolean canIncrease(int chosenCardIndex, int clusterIndex) {
@@ -100,20 +130,6 @@ public class Game {
         }
     }
 
-    void drawCard(){
-        if (!deck.isEmpty()){
-            if (nbCardPlayedPerRound < minCardPlayedPerRound){
-                presenter.displayCannotDraw();
-            } else {
-                for (int i = 0; i < nbCardPlayedPerRound; i++){
-                    cards.add(deck.remove(0));
-                }
-                nbCardPlayedPerRound = 0;
-                presenter.onValidPlay();
-            }
-        }
-    }
-
     private void generateDeck() {
         for (int i = 2; i < 100; i++){
             deck.add(i);
@@ -134,6 +150,9 @@ public class Game {
     }
 
     private boolean checkForValidation(int chosenCardIndex, int clusterIndex) {
+        if (isJokerActivated){
+            return true;
+        }
         boolean isChoiceValid;
         if (clusterIndex == 0 || clusterIndex == 1){
             isChoiceValid = canIncrease(chosenCardIndex, clusterIndex);

@@ -7,6 +7,23 @@
     android:background="#CAD6F1">
 
     <TextView
+        android:tag="1"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:fontFamily="@font/poplar"
+        android:textColor="#7D9CE4"
+        android:onClick="newGame"
+        android:text="PLAY SUPER EASY"/>
+
+    <View
+        android:layout_width="170dp"
+        android:layout_height="2dp"
+        android:background="#7D9CE4"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
         android:tag="2"
         android:textAlignment="center"
         android:layout_width="match_parent"
@@ -73,6 +90,43 @@
             android:textColor="#000"
             android:fontFamily="@font/poplar"
             android:text="HIGHSCORES"/>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="12"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/poplar"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:text="SUPER EASY : "/>
+
+            <TextView
+                android:id="@+id/hs_super_easy"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poplar"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:text="10"/>
+
+        </LinearLayout>
 
         <View
             android:layout_marginTop="5dp"

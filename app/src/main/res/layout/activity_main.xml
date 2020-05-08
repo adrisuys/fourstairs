@@ -356,4 +356,78 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000"
+        android:layout_marginTop="4dp"/>
+
+    <LinearLayout
+        android:id="@+id/jokers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="12">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:text="JOKER : "
+            android:fontFamily="@font/poplar"
+            android:textSize="25dp"
+            android:textColor="#B12626"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:tag="1"
+                android:onClick="onJokerUsed"
+                android:id="@+id/joker_one"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/icon"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:onClick="onJokerUsed"
+                android:tag="2"
+                android:id="@+id/joker_two"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/icon"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:onClick="onJokerUsed"
+                android:tag="3"
+                android:id="@+id/joker_three"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/icon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

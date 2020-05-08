@@ -1,7 +1,5 @@
 package be.adrisuys.thegamecolor;
 
-import android.view.View;
-
 import java.util.List;
 
 public class Presenter {
@@ -11,6 +9,7 @@ public class Presenter {
 
     public Presenter(ViewInterface view, int difficulty){
         this.view = view;
+        if (difficulty == 1) difficulty = 2;
         game = new Game(this, difficulty);
     }
 
@@ -61,5 +60,13 @@ public class Presenter {
     public void onPlayerCardSelected(int chosenCardIndex) {
         List<Integer> validClustersIndex = game.getValidClusters(chosenCardIndex);
         view.showValidClusters(validClustersIndex);
+    }
+
+    public void activateJoker() {
+        game.activateJoker();
+    }
+
+    public boolean isJokerActive(){
+        return game.isJokerActive();
     }
 }

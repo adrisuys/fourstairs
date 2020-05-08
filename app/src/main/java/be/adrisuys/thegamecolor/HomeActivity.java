@@ -19,12 +19,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         SharedPreferences sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
+        TextView highScoreSuperEasyTv = findViewById(R.id.hs_super_easy);
         TextView highScoreEasyTv = findViewById(R.id.hs_easy);
         TextView highScoreAvgTv = findViewById(R.id.hs_avg);
         TextView highScoreHardTv = findViewById(R.id.hs_difficult);
+        int highScoreSuperEasy = sp.getInt("hs_super_easy", 98);
         int highScoreEasy = sp.getInt("hs_easy", 98);
         int highScoreAvg = sp.getInt("hs_avg", 98);
         int highScoreHard = sp.getInt("hs_hard", 98);
+        highScoreSuperEasyTv.setText(String.valueOf(highScoreSuperEasy));
         highScoreEasyTv.setText(String.valueOf(highScoreEasy));
         highScoreAvgTv.setText(String.valueOf(highScoreAvg));
         highScoreHardTv.setText(String.valueOf(highScoreHard));

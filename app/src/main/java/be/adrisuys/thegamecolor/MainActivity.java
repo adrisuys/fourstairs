@@ -2,9 +2,7 @@ package be.adrisuys.thegamecolor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -25,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private LinearLayout[] middleContainers;
     private Button[] middleCards;
     private TextView remainingCards;
+    private LinearLayout jokersLayout;
+    private ImageView jokerOne, jokerTwo, jokerThree;
+
     private Presenter presenter;
     private int chosenCardIndex;
     private int difficulty;
@@ -37,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         setContentView(R.layout.activity_main);
         sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
         editor = sp.edit();
+        difficulty = getIntent().getIntExtra("difficulty", 2);
         setupLinearLayouts();
         setupButton();
         setUpMiddleElement();
-        difficulty = getIntent().getIntExtra("difficulty", 2);
         presenter = new Presenter(this, difficulty);
         chosenCardIndex = -1;
         displayPlayerCards();
@@ -65,6 +66,21 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     public void onDrawCard(View view){
         presenter.drawCard();
+    }
+
+    public void onJokerUsed(View v){
+        if (presenter.isJokerActive()){
+            Toast.makeText(this, "A joker is already active", Toast.LENGTH_LONG).show();
+            return;
+        }
+        int index = Integer.parseInt(v.getTag().toString());
+        if (index == 1){
+            handleJoker(jokerOne);
+        } else if (index == 2){
+            handleJoker(jokerTwo);
+        } else {
+            handleJoker(jokerThree);
+        }
     }
 
     @Override
@@ -192,6 +208,12 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         LinearLayout containerSeven = findViewById(R.id.container_seven);
         LinearLayout containerEight = findViewById(R.id.container_eight);
         containers = new LinearLayout[]{containerOne, containerTwo, containerThree, containerFour, containerFive, containerSix, containerSeven, containerEight};
+        jokersLayout = findViewById(R.id.jokers);
+        if (difficulty == 1){
+            jokersLayout.setVisibility(View.VISIBLE);
+        } else {
+            jokersLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setupButton() {
@@ -204,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         Button cardSeven = findViewById(R.id.card_seven);
         Button cardEight = findViewById(R.id.card_eight);
         cards = new Button[]{cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix, cardSeven, cardEight};
+        jokerOne = findViewById(R.id.joker_one);
+        jokerTwo = findViewById(R.id.joker_two);
+        jokerThree = findViewById(R.id.joker_three);
     }
 
     private void setUpMiddleElement(){
@@ -278,7 +303,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     }
 
     private void saveHS(int newScore){
-        if (difficulty == 2){
+        if (difficulty == 1){
+          editor.putInt("hs_super_easy", newScore);
+        } else if (difficulty == 2){
             editor.putInt("hs_easy", newScore);
         } else if (difficulty == 3){
             editor.putInt("hs_avg", newScore);
@@ -297,5 +324,14 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private int generateColor(int r, int g, int b){
         Color color = new Color();
         return color.rgb(r, g, b);
+    }
+
+    private void handleJoker(ImageView joker){
+        joker.setBackgroundResource(0);
+        joker.setEnabled(false);
+        presenter.activateJoker();
+        for (LinearLayout ll : middleContainers){
+            ll.setBackgroundColor(generateColor(255,0,255));
+        }
     }
 }
