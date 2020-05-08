@@ -33,12 +33,7 @@ public class Game {
     }
 
     public void play(int chosenCardIndex, int clusterIndex) {
-        boolean isChoiceValid;
-        if (clusterIndex == 0 || clusterIndex == 1){
-            isChoiceValid = canIncrease(chosenCardIndex, clusterIndex);
-        } else {
-            isChoiceValid = canDecrease(chosenCardIndex, clusterIndex);
-        }
+        boolean isChoiceValid = checkForValidation(chosenCardIndex, clusterIndex);
         if (isChoiceValid){
             clusters[clusterIndex] = cards.remove(chosenCardIndex);
             nbCardPlayedPerRound++;
@@ -46,6 +41,10 @@ public class Game {
         } else {
             presenter.displayWrongCard();
         }
+    }
+
+    public int getNonPlayedCards() {
+        return deck.size() + cards.size();
     }
 
     public int getRemainingCards(){
@@ -65,17 +64,23 @@ public class Game {
         return true;
     }
 
+    public List<Integer> getValidClusters(int chosenCardIndex){
+        List<Integer> valids = new ArrayList<>();
+        for (int i = 0; i < clusters.length; i++){
+            if (checkForValidation(chosenCardIndex, i)){
+                valids.add(i);
+            }
+        }
+        return valids;
+    }
+
     private boolean canIncrease(int chosenCardIndex, int clusterIndex) {
         if (clusters[clusterIndex] == -1) {
             return true;
         } else if (cards.get(chosenCardIndex) + 10 == clusters[clusterIndex]){
             return true;
         } else {
-            if (cards.get(chosenCardIndex) > clusters[clusterIndex]){
-                return true;
-            } else {
-                return false;
-            }
+            return cards.get(chosenCardIndex) > clusters[clusterIndex];
         }
     }
 
@@ -85,11 +90,7 @@ public class Game {
         } else if (cards.get(chosenCardIndex) - 10 == clusters[clusterIndex]){
             return true;
         } else {
-            if (cards.get(chosenCardIndex) < clusters[clusterIndex]){
-                return true;
-            } else {
-                return false;
-            }
+            return cards.get(chosenCardIndex) < clusters[clusterIndex];
         }
     }
 
@@ -132,7 +133,13 @@ public class Game {
         presenter.onValidPlay();
     }
 
-    public int getNonPlayedCards() {
-        return deck.size() + cards.size();
+    private boolean checkForValidation(int chosenCardIndex, int clusterIndex) {
+        boolean isChoiceValid;
+        if (clusterIndex == 0 || clusterIndex == 1){
+            isChoiceValid = canIncrease(chosenCardIndex, clusterIndex);
+        } else {
+            isChoiceValid = canDecrease(chosenCardIndex, clusterIndex);
+        }
+        return isChoiceValid;
     }
 }

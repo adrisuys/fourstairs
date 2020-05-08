@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     private LinearLayout[] containers;
@@ -44,6 +46,73 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         displayPlayerCards();
         int remainingCards = presenter.getRemainingCards();
         this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+    }
+
+    public void onSelectCard(View view){
+        if (chosenCardIndex != -1){
+            containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
+        }
+        chosenCardIndex = Integer.parseInt(view.getTag().toString());
+        containers[chosenCardIndex].setBackgroundColor(generateColor(85, 255, 0));
+        presenter.onPlayerCardSelected(chosenCardIndex);
+    }
+
+    public void onSelectCluster(View view) {
+        containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
+        int clusterIndex = Integer.parseInt(view.getTag().toString());
+        presenter.play(chosenCardIndex, clusterIndex);
+    }
+
+    public void onDrawCard(View view){
+        presenter.drawCard();
+    }
+
+    @Override
+    public void displayWrongCard() {
+        Toast.makeText(this, "You cannot play that card on that pile !", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onValidPlay() {
+        hideClusterHighlights();
+        displayPlayerCards();
+        displayMiddlePiles();
+        int remainingCards = presenter.getRemainingCards();
+        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+    }
+
+    @Override
+    public void displayWin() {
+        saveHS(0);
+        showDialog(true, -1);
+    }
+
+    @Override
+    public void displayLoss() {
+        int currentHS = getCurrentHS();
+        if (presenter.getNonPlayedCards() < currentHS){
+            saveHS(presenter.getNonPlayedCards());
+            showDialog(false, presenter.getNonPlayedCards());
+        }
+        showDialog(false, -1);
+    }
+
+    @Override
+    public void displayCannotDraw() {
+        Toast.makeText(this, "You have to play at least " + difficulty + " cards to draw new ones !", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showValidClusters(List<Integer> validClustersIndex) {
+        hideClusterHighlights();
+        for (int i : validClustersIndex){
+            middleContainers[i].setBackgroundColor(generateColor(255,0,255));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitWarning();
     }
 
     private void displayPlayerCards() {
@@ -182,7 +251,28 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
             }
         });
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 
+    private void showExitWarning(){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog_exit);
+        TextView buttonYes = dialog.findViewById(R.id.btnYes);
+        TextView buttonNo = dialog.findViewById(R.id.btnNo);
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            }
+        });
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
         dialog.setCancelable(false);
         dialog.show();
     }
@@ -198,55 +288,14 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         editor.commit();
     }
 
-    public void onSelectCard(View view){
-        if (chosenCardIndex != -1){
-            containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
+    private void hideClusterHighlights(){
+        for (LinearLayout ll : middleContainers){
+            ll.setBackgroundColor(Color.TRANSPARENT);
         }
-        chosenCardIndex = Integer.parseInt(view.getTag().toString());
-        containers[chosenCardIndex].setBackgroundColor(Color.GREEN);
     }
 
-    public void onSelectCluster(View view) {
-        containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
-        int clusterIndex = Integer.parseInt(view.getTag().toString());
-        presenter.play(chosenCardIndex, clusterIndex);
-    }
-
-    public void onDrawCard(View view){
-        presenter.drawCard();
-    }
-
-    @Override
-    public void displayWrongCard() {
-        Toast.makeText(this, "You cannot play that card on that pile !", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onValidPlay() {
-        displayPlayerCards();
-        displayMiddlePiles();
-        int remainingCards = presenter.getRemainingCards();
-        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
-    }
-
-    @Override
-    public void displayWin() {
-        saveHS(0);
-        showDialog(true, -1);
-    }
-
-    @Override
-    public void displayLoss() {
-        int currentHS = getCurrentHS();
-        if (presenter.getNonPlayedCards() < currentHS){
-            saveHS(presenter.getNonPlayedCards());
-            showDialog(false, presenter.getNonPlayedCards());
-        }
-        showDialog(false, -1);
-    }
-
-    @Override
-    public void displayCannotDraw() {
-        Toast.makeText(this, "You have to play at least " + difficulty + " cards to draw new ones !", Toast.LENGTH_LONG).show();
+    private int generateColor(int r, int g, int b){
+        Color color = new Color();
+        return color.rgb(r, g, b);
     }
 }

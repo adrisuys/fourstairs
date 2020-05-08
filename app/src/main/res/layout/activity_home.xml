@@ -6,13 +6,6 @@
     android:padding="20dp"
     android:background="#CAD6F1">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:layout_marginBottom="65dp"
-        android:background="@drawable/logo"/>
-
     <TextView
         android:tag="2"
         android:textAlignment="center"
@@ -20,10 +13,15 @@
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:fontFamily="@font/poplar"
-        android:layout_marginBottom="15dp"
         android:textColor="#5A85E6"
         android:onClick="newGame"
         android:text="PLAY EASY"/>
+
+    <View
+        android:layout_width="105dp"
+        android:layout_height="2dp"
+        android:background="#5A85E6"
+        android:layout_marginBottom="30dp"/>
 
     <TextView
         android:tag="3"
@@ -32,10 +30,15 @@
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:fontFamily="@font/poplar"
-        android:layout_marginBottom="15dp"
         android:textColor="#255AD5"
         android:onClick="newGame"
         android:text="PLAY AVERAGE"/>
+
+    <View
+        android:layout_width="145dp"
+        android:layout_height="2dp"
+        android:background="#255AD5"
+        android:layout_marginBottom="30dp"/>
 
     <TextView
         android:tag="4"
@@ -44,10 +47,15 @@
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:fontFamily="@font/poplar"
-        android:layout_marginBottom="15dp"
         android:textColor="#082466"
         android:onClick="newGame"
         android:text="PLAY HARD"/>
+
+    <View
+        android:layout_width="105dp"
+        android:layout_height="2dp"
+        android:background="#082466"
+        android:layout_marginBottom="30dp"/>
 
     <LinearLayout
         android:background="@drawable/table"

@@ -1,5 +1,7 @@
 package be.adrisuys.thegamecolor;
 
+import java.util.List;
+
 public interface ViewInterface {
     void displayWrongCard();
 
@@ -10,4 +12,6 @@ public interface ViewInterface {
     void displayLoss();
 
     void displayCannotDraw();
+
+    void showValidClusters(List<Integer> validClustersIndex);
 }

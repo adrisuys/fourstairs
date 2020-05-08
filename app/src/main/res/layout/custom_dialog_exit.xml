@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poplar"
             android:textSize="35dp"
-            android:text="hemmpon"
+            android:text="Leaving ?"
             android:textColor="#FFF"
             android:id="@+id/title"/>
 
@@ -44,12 +44,13 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:adjustViewBounds="true"
-                android:background="@drawable/ic_sentiment_very_satisfied_black_24dp"
+                android:background="@drawable/ic_warning_black_24dp"
                 android:textColor="#FFF" />
 
         </LinearLayout>
 
         <TextView
+            android:text="Are you sure ? The game will not be saved..."
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_weight="8"
@@ -74,9 +75,19 @@
             android:fontFamily="@font/poplar"
             android:textSize="30dp"
             android:textColor="#FFF"
-            android:text="OK"
+            android:text="YES"
+            android:layout_marginRight="50dp"
+            android:id="@+id/btnYes"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poplar"
+            android:textSize="30dp"
+            android:textColor="#FFF"
+            android:text="NO"
             android:layout_marginRight="10dp"
-            android:id="@+id/btn"/>
+            android:id="@+id/btnNo"/>
 
     </LinearLayout>
 

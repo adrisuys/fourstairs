@@ -57,4 +57,9 @@ public class Presenter {
     public void drawCard() {
         game.drawCard();
     }
+
+    public void onPlayerCardSelected(int chosenCardIndex) {
+        List<Integer> validClustersIndex = game.getValidClusters(chosenCardIndex);
+        view.showValidClusters(validClustersIndex);
+    }
 }

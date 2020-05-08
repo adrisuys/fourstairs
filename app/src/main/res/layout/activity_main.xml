@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
                 android:textSize="50dp"
@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
                 android:textSize="50dp"
@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
                 android:textSize="50dp"
@@ -81,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
                 android:textSize="50dp"
@@ -106,6 +106,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/poplar"
+            android:textSize="20dp"
+            android:textColor="#000"
             android:layout_height="match_parent"
             android:text="1-99"
             android:textAlignment="center"/>
@@ -113,6 +116,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/poplar"
+            android:textSize="20dp"
+            android:textColor="#000"
             android:layout_height="match_parent"
             android:text="1-99"
             android:textAlignment="center"/>
@@ -120,6 +126,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/poplar"
+            android:textSize="20dp"
+            android:textColor="#000"
             android:layout_height="match_parent"
             android:text="100-2"
             android:textAlignment="center"/>
@@ -127,6 +136,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/poplar"
+            android:textSize="20dp"
+            android:textColor="#000"
             android:layout_height="match_parent"
             android:text="100-2"
             android:textAlignment="center"/>
@@ -159,8 +171,10 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:gravity="center"
+            android:fontFamily="@font/poplar"
+            android:textColor="#000"
             android:text="Remaining cards in deck : 95"
-            android:textSize="25dp"/>
+            android:textSize="35dp"/>
 
     </LinearLayout>
 
@@ -185,10 +199,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="0"
                 android:id="@+id/card_one"
@@ -203,10 +218,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="1"
                 android:id="@+id/card_two"
@@ -221,10 +237,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="2"
                 android:id="@+id/card_three"
@@ -238,10 +255,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="3"
                 android:id="@+id/card_four"
@@ -267,10 +285,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="4"
                 android:id="@+id/card_five"
@@ -285,10 +304,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="5"
                 android:id="@+id/card_six"
@@ -303,10 +323,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginRight="5dp"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="6"
                 android:id="@+id/card_seven"
@@ -320,10 +341,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:onClick="onSelectCard"
                 android:tag="7"
                 android:id="@+id/card_eight"
