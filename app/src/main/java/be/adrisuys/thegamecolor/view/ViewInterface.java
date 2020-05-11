@@ -1,4 +1,4 @@
-package be.adrisuys.thegamecolor;
+package be.adrisuys.thegamecolor.view;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface ViewInterface {
     void displayCannotDraw();
 
     void showValidClusters(List<Integer> validClustersIndex);
+
+    void updateUI();
 }

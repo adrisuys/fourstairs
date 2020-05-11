@@ -1,10 +1,12 @@
-package be.adrisuys.thegamecolor;
+package be.adrisuys.thegamecolor.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import be.adrisuys.thegamecolor.R;
 
 public class InfoActivity extends AppCompatActivity {
 

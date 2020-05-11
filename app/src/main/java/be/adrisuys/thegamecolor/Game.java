@@ -35,12 +35,13 @@ public class Game {
     }
 
     public void play(int chosenCardIndex, int clusterIndex) {
+        if (chosenCardIndex >= cards.size()) return;
         boolean isChoiceValid = checkForValidation(chosenCardIndex, clusterIndex);
         if (isChoiceValid){
             clusters[clusterIndex] = cards.remove(chosenCardIndex);
             isJokerActivated = false;
             nbCardPlayedPerRound++;
-            checkForEnd();
+            presenter.onValidPlay();
         } else {
             presenter.displayWrongCard();
         }
@@ -54,26 +55,11 @@ public class Game {
         return deck.size();
     }
 
-    public boolean isGameBlocked(){
-        if (cards.size() < 8){
-            if (!deck.isEmpty()){
-                return false;
-            }
-        }
-        for (int i = 0; i < cards.size(); i++){
-            for (int j = 0; j < clusters.length; j++){
-                if (j == 0 || j == 1){
-                    if (canIncrease(i, j)) return false;
-                } else {
-                    if (canDecrease(i, j)) return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public List<Integer> getValidClusters(int chosenCardIndex){
         List<Integer> valids = new ArrayList<>();
+        if (chosenCardIndex >= cards.size()){
+            return null;
+        }
         for (int i = 0; i < clusters.length; i++){
             if (checkForValidation(chosenCardIndex, i)){
                 valids.add(i);
@@ -96,12 +82,66 @@ public class Game {
                 presenter.displayCannotDraw();
             } else {
                 for (int i = 0; i < nbCardPlayedPerRound; i++){
-                    cards.add(deck.remove(0));
+                    if (!deck.isEmpty()){
+                        cards.add(deck.remove(0));
+                    }
                 }
                 nbCardPlayedPerRound = 0;
-                presenter.onValidPlay();
+                presenter.updateUI();
             }
         }
+    }
+
+    public void checkForEnd(boolean jokerAvailable) {
+        if (cards.isEmpty() && deck.isEmpty()){
+            presenter.displayWin();
+            return;
+        }
+        if (jokerAvailable){
+            return;
+        }
+        if (isGameBlocked()){
+            presenter.displayLoss();
+            return;
+        }
+    }
+
+    private boolean isGameBlocked() {
+        boolean canStillPlay = checkIfPlayerCardUseful();
+        if (canStillPlay){
+            return false;
+        } else {
+            if (cards.size() == 8){
+                // il ne peut pas piocher car il a déjà 8 cartes donc c'est mort
+                return true;
+            } else {
+                if (nbCardPlayedPerRound >= minCardPlayedPerRound){
+                    // il peut piocher
+                    if (deck.isEmpty()){
+                        // le deck est vide
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    // il ne peut pas piocher car il doit encore jouer X cartes
+                    return true;
+                }
+            }
+        }
+    }
+
+    private boolean checkIfPlayerCardUseful() {
+        for (int i = 0; i < cards.size(); i++){
+            for (int j = 0; j < clusters.length; j++){
+                if (j == 0 || j == 1){
+                    if (canIncrease(i, j)) return true;
+                } else {
+                    if (canDecrease(i, j)) return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean canIncrease(int chosenCardIndex, int clusterIndex) {
@@ -137,18 +177,6 @@ public class Game {
         Collections.shuffle(deck);
     }
 
-    private void checkForEnd() {
-        if (cards.isEmpty() && deck.isEmpty()){
-            presenter.displayWin();
-            return;
-        }
-        if (isGameBlocked()){
-            presenter.displayLoss();
-            return;
-        }
-        presenter.onValidPlay();
-    }
-
     private boolean checkForValidation(int chosenCardIndex, int clusterIndex) {
         if (isJokerActivated){
             return true;
@@ -161,4 +189,5 @@ public class Game {
         }
         return isChoiceValid;
     }
+
 }

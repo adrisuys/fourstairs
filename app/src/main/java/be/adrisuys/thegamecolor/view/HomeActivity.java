@@ -1,8 +1,5 @@
-package be.adrisuys.thegamecolor;
+package be.adrisuys.thegamecolor.view;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import be.adrisuys.thegamecolor.R;
+
 public class HomeActivity extends AppCompatActivity {
+
+    private Intent badges;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         highScoreEasyTv.setText(String.valueOf(highScoreEasy));
         highScoreAvgTv.setText(String.valueOf(highScoreAvg));
         highScoreHardTv.setText(String.valueOf(highScoreHard));
+        badges = prepareIntent(sp);
     }
 
     public void newGame(View v){
@@ -41,5 +43,22 @@ public class HomeActivity extends AppCompatActivity {
 
     public void seeInfo(View view){
         startActivity(new Intent(this, InfoActivity.class));
+    }
+
+    public void seeBadges(View view){
+        startActivity(badges);
+    }
+
+    private Intent prepareIntent(SharedPreferences sp){
+        Intent i = new Intent(this, BadgesActivity.class);
+        i.putExtra("hs_super_easy", sp.getInt("hs_super_easy", 98));
+        i.putExtra("hs_easy", sp.getInt("hs_easy", 98));
+        i.putExtra("hs_avg", sp.getInt("hs_avg", 98));
+        i.putExtra("hs_hard", sp.getInt("hs_hard", 98));
+        i.putExtra("win_super_easy", sp.getInt("win_super_easy", 0));
+        i.putExtra("win_easy", sp.getInt("win_easy", 0));
+        i.putExtra("win_avg", sp.getInt("win_avg", 0));
+        i.putExtra("win_hard", sp.getInt("win_hard", 0));
+        return i;
     }
 }

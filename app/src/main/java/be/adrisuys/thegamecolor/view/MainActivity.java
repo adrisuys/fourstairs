@@ -1,4 +1,4 @@
-package be.adrisuys.thegamecolor;
+package be.adrisuys.thegamecolor.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import be.adrisuys.thegamecolor.Presenter;
+import be.adrisuys.thegamecolor.R;
+
 public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     private LinearLayout[] containers;
@@ -25,7 +28,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private TextView remainingCards;
     private LinearLayout jokersLayout;
     private ImageView jokerOne, jokerTwo, jokerThree;
+    private Button deck;
 
+    private int jokerCounter;
     private Presenter presenter;
     private int chosenCardIndex;
     private int difficulty;
@@ -44,13 +49,14 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         setUpMiddleElement();
         presenter = new Presenter(this, difficulty);
         chosenCardIndex = -1;
+        jokerCounter = 0;
         displayPlayerCards();
         int remainingCards = presenter.getRemainingCards();
         this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
     }
 
     public void onSelectCard(View view){
-        if (chosenCardIndex != -1){
+        if (chosenCardIndex != - 1){
             containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
         }
         chosenCardIndex = Integer.parseInt(view.getTag().toString());
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     }
 
     public void onSelectCluster(View view) {
+        if (chosenCardIndex == -1) return;
         containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
         int clusterIndex = Integer.parseInt(view.getTag().toString());
         presenter.play(chosenCardIndex, clusterIndex);
@@ -70,9 +77,10 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     public void onJokerUsed(View v){
         if (presenter.isJokerActive()){
-            Toast.makeText(this, "A joker is already active", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "A joker is already active", Toast.LENGTH_SHORT).show();
             return;
         }
+        jokerCounter++;
         int index = Integer.parseInt(v.getTag().toString());
         if (index == 1){
             handleJoker(jokerOne);
@@ -85,16 +93,16 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     @Override
     public void displayWrongCard() {
-        Toast.makeText(this, "You cannot play that card on that pile !", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You cannot play that card on that pile !", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onValidPlay() {
-        hideClusterHighlights();
-        displayPlayerCards();
-        displayMiddlePiles();
-        int remainingCards = presenter.getRemainingCards();
-        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+        if (chosenCardIndex != -1){
+            containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
+            chosenCardIndex = -1;
+        }
+        updateUI();
     }
 
     @Override
@@ -115,14 +123,46 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     @Override
     public void displayCannotDraw() {
-        Toast.makeText(this, "You have to play at least " + difficulty + " cards to draw new ones !", Toast.LENGTH_LONG).show();
+        int diff = difficulty;
+        if (difficulty == 1) diff = 2;
+        Toast.makeText(this, "You have to play at least " + diff + " cards to draw new ones !", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showValidClusters(List<Integer> validClustersIndex) {
+        if (validClustersIndex == null){
+            hideClusterHighlights();
+            containers[chosenCardIndex].setBackgroundColor(Color.TRANSPARENT);
+        } else {
+            containers[chosenCardIndex].setBackgroundColor(generateColor(85, 255, 0));
+            hideClusterHighlights();
+            for (int i : validClustersIndex){
+                middleContainers[i].setBackgroundColor(generateColor(255,0,255));
+            }
+        }
+
+    }
+
+    @Override
+    public void updateUI() {
         hideClusterHighlights();
-        for (int i : validClustersIndex){
-            middleContainers[i].setBackgroundColor(generateColor(255,0,255));
+        displayPlayerCards();
+        displayMiddlePiles();
+        int remainingCards = presenter.getRemainingCards();
+        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+        if (remainingCards > 0){
+            deck.setBackgroundResource(R.drawable.back);
+        } else {
+            deck.setBackgroundResource(0);
+        }
+        if (difficulty == 1){
+            if (jokerCounter >= 3){
+                presenter.checkForEnd(false);
+            } else {
+                presenter.checkForEnd(true);
+            }
+        } else {
+            presenter.checkForEnd(false);
         }
     }
 
@@ -229,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         jokerOne = findViewById(R.id.joker_one);
         jokerTwo = findViewById(R.id.joker_two);
         jokerThree = findViewById(R.id.joker_three);
+        deck = findViewById(R.id.deck);
     }
 
     private void setUpMiddleElement(){
@@ -262,10 +303,10 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         TextView message = dialog.findViewById(R.id.message);
         ImageView icon = dialog.findViewById(R.id.icon);
         TextView button = dialog.findViewById(R.id.btn);
-        title.setText(won ? "Congrats !" : "Too bad..");
-        String msg = won ? "You won !" : "No move possible.";
-        if (hs != -1 && !won){
-            msg += "\nNew highscore : " + hs;
+        title.setText(won ? "Congrats !" : "No move possible");
+        String msg = "";
+        if (!won && hs != -1){
+            msg = "New Highscore : " + hs;
         }
         message.setText(msg);
         icon.setBackgroundResource(won ? R.drawable.ic_sentiment_very_satisfied_black_24dp : R.drawable.ic_sentiment_dissatisfied_black_24dp);
@@ -305,12 +346,24 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private void saveHS(int newScore){
         if (difficulty == 1){
           editor.putInt("hs_super_easy", newScore);
+          if (newScore == 0){
+              editor.putInt("win_super_easy", sp.getInt("win_super_easy", 0) + 1);
+          }
         } else if (difficulty == 2){
             editor.putInt("hs_easy", newScore);
+            if (newScore == 0){
+                editor.putInt("win_easy", sp.getInt("win_easy", 0) + 1);
+            }
         } else if (difficulty == 3){
             editor.putInt("hs_avg", newScore);
+            if (newScore == 0){
+                editor.putInt("win_avg", sp.getInt("win_avg", 0) + 1);
+            }
         } else {
             editor.putInt("hs_hard", newScore);
+            if (newScore == 0){
+                editor.putInt("win_hard", sp.getInt("win_hard", 0) + 1);
+            }
         }
         editor.commit();
     }

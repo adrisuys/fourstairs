@@ -2,6 +2,8 @@ package be.adrisuys.thegamecolor;
 
 import java.util.List;
 
+import be.adrisuys.thegamecolor.view.ViewInterface;
+
 public class Presenter {
 
     private Game game;
@@ -68,5 +70,13 @@ public class Presenter {
 
     public boolean isJokerActive(){
         return game.isJokerActive();
+    }
+
+    public void updateUI() {
+        view.updateUI();
+    }
+
+    public void checkForEnd(boolean jokerAvailable) {
+        game.checkForEnd(jokerAvailable);
     }
 }

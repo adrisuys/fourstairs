@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     android:orientation="vertical"
     android:weightSum="15"
     android:padding="10dp">
@@ -28,7 +28,8 @@
             android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:tag="0"
                 android:background="@drawable/up"
                 android:onClick="onSelectCluster"
@@ -47,7 +48,8 @@
             android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:tag="1"
                 android:background="@drawable/up"
                 android:onClick="onSelectCluster"
@@ -66,7 +68,8 @@
             android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:tag="2"
                 android:background="@drawable/down"
                 android:onClick="onSelectCluster"
@@ -84,7 +87,8 @@
             android:padding="5dp">
 
             <Button
-                android:textSize="50dp"
+                android:textSize="60dp"
+                android:fontFamily="@font/poplar"
                 android:tag="3"
                 android:background="@drawable/down"
                 android:onClick="onSelectCluster"
@@ -158,6 +162,7 @@
         android:weightSum="12">
 
         <Button
+            android:id="@+id/deck"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="match_parent"
