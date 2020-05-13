@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,11 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private int mode;
+    private boolean soundOn;
     private Spinner spinner;
+    private ImageView soundIcon;
+
+    private boolean isInit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,8 +35,19 @@ public class SettingsActivity extends AppCompatActivity {
         sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
         editor = sp.edit();
         mode = sp.getInt("mode", MainActivity.FOALS);
+        soundOn = sp.getBoolean("sound", false);
         spinner = findViewById(R.id.spinner);
+        soundIcon = findViewById(R.id.sound);
+        isInit = false;
         setupSpinner();
+        setupSoundIcon();
+    }
+
+    public void onSoundChanged(View v){
+        soundOn = !soundOn;
+        saveSound();
+        setupSoundIcon();
+
     }
 
     @Override
@@ -41,6 +57,19 @@ public class SettingsActivity extends AppCompatActivity {
             spinner.setSelection(0);
         } else if (mode == MainActivity.CARD){
             spinner.setSelection(1);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, HomeActivity.class));
+    }
+
+    private void setupSoundIcon(){
+        if (soundOn){
+            soundIcon.setBackgroundResource(R.drawable.ic_volume_up_black_24dp);
+        } else {
+            soundIcon.setBackgroundResource(R.drawable.ic_volume_off_black_24dp);
         }
     }
 
@@ -55,15 +84,19 @@ public class SettingsActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                if (item.equals("FOALS")){
-                    mode = MainActivity.FOALS;
-                } else if (item.equals("PLAYING CARDS")){
-                    mode = MainActivity.CARD;
-                } else if (item.equals("CATS")){
-                    mode = MainActivity.CATS;
+                if (isInit){
+                    String item = parent.getItemAtPosition(position).toString();
+                    if (item.equals("FOALS")){
+                        mode = MainActivity.FOALS;
+                    } else if (item.equals("PLAYING CARDS")){
+                        mode = MainActivity.CARD;
+                    } else if (item.equals("CATS")){
+                        mode = MainActivity.CATS;
+                    }
+                    saveMode();
+                } else {
+                    isInit = true;
                 }
-                saveMode();
             }
 
             @Override
@@ -78,8 +111,9 @@ public class SettingsActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, HomeActivity.class));
+    private void saveSound(){
+        editor.putBoolean("sound", soundOn);
+        editor.commit();
     }
+
 }

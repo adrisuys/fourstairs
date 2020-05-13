@@ -3,6 +3,7 @@ package be.adrisuys.thegamecolor.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,14 +17,21 @@ import be.adrisuys.thegamecolor.R;
 public class HomeActivity extends AppCompatActivity {
 
     private Intent badges;
-    private int challenge;
     private Dialog dialog;
+    private MediaPlayer mp;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        SharedPreferences sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
+        sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
+        displayHighscores();
+        badges = prepareIntent(sp);
+        mp = MediaPlayer.create(this, R.raw.blob);
+    }
+
+    private void displayHighscores(){
         TextView highScoreSuperEasyTv = findViewById(R.id.hs_super_easy);
         TextView highScoreEasyTv = findViewById(R.id.hs_easy);
         TextView highScoreAvgTv = findViewById(R.id.hs_avg);
@@ -36,8 +44,27 @@ public class HomeActivity extends AppCompatActivity {
         highScoreEasyTv.setText(String.valueOf(highScoreEasy));
         highScoreAvgTv.setText(String.valueOf(highScoreAvg));
         highScoreHardTv.setText(String.valueOf(highScoreHard));
-        badges = prepareIntent(sp);
-        challenge = sp.getInt("challenge", 15);
+    }
+
+    private Intent prepareIntent(SharedPreferences sp){
+        Intent i = new Intent(this, BadgesActivity.class);
+        i.putExtra("hs_super_easy", sp.getInt("hs_super_easy", 98));
+        i.putExtra("hs_easy", sp.getInt("hs_easy", 98));
+        i.putExtra("hs_avg", sp.getInt("hs_avg", 98));
+        i.putExtra("hs_hard", sp.getInt("hs_hard", 98));
+        i.putExtra("win_super_easy", sp.getInt("win_super_easy", 0));
+        i.putExtra("win_easy", sp.getInt("win_easy", 0));
+        i.putExtra("win_avg", sp.getInt("win_avg", 0));
+        i.putExtra("win_hard", sp.getInt("win_hard", 0));
+        return i;
+    }
+
+    private void startNewGame(int difficultyLevel){
+        if (sp.getBoolean("sound", false)) mp.start();
+        dialog.cancel();
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("difficulty", difficultyLevel);
+        startActivity(i);
     }
 
     public void newGame(View v){
@@ -84,41 +111,25 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void seeInfo(View view){
+        if (sp.getBoolean("sound", false)) mp.start();
         startActivity(new Intent(this, InfoActivity.class));
     }
 
     public void seeBadges(View view){
+        if (sp.getBoolean("sound", false)) mp.start();
         startActivity(badges);
     }
 
     public void newChallenge(View v){
+        if (sp.getBoolean("sound", false)) mp.start();
         Intent intent = new Intent(this, ChallengeActivity.class);
-        intent.putExtra("lastChallengeDone", challenge);
+        intent.putExtra("lastChallengeDone", sp.getInt("challenge", 15));
         startActivity(intent);
     }
 
     public void seeSettings(View view) {
+        if (sp.getBoolean("sound", false)) mp.start();
         startActivity(new Intent(this, SettingsActivity.class));
-    }
-
-    private Intent prepareIntent(SharedPreferences sp){
-        Intent i = new Intent(this, BadgesActivity.class);
-        i.putExtra("hs_super_easy", sp.getInt("hs_super_easy", 98));
-        i.putExtra("hs_easy", sp.getInt("hs_easy", 98));
-        i.putExtra("hs_avg", sp.getInt("hs_avg", 98));
-        i.putExtra("hs_hard", sp.getInt("hs_hard", 98));
-        i.putExtra("win_super_easy", sp.getInt("win_super_easy", 0));
-        i.putExtra("win_easy", sp.getInt("win_easy", 0));
-        i.putExtra("win_avg", sp.getInt("win_avg", 0));
-        i.putExtra("win_hard", sp.getInt("win_hard", 0));
-        return i;
-    }
-
-    private void startNewGame(int difficultyLevel){
-        dialog.cancel();
-        Intent i = new Intent(this, MainActivity.class);
-        i.putExtra("difficulty", difficultyLevel);
-        startActivity(i);
     }
 
 }

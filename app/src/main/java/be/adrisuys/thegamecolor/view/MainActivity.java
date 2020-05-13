@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
+    private MediaPlayer mpWin;
+    private MediaPlayer mpLose;
+    private MediaPlayer mpJoker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         setupLinearLayouts();
         setupButton();
         setUpMiddleElement();
+        setUpMp();
         setupGame();
     }
 
@@ -131,12 +137,14 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     @Override
     public void displayWin() {
         saveHS(0);
+        if (sp.getBoolean("sound", false)) mpWin.start();
         showDialog(true, -1);
     }
 
     @Override
     public void displayLoss() {
         int currentHS = getCurrentHS();
+        if (sp.getBoolean("sound", false)) mpLose.start();
         if (presenter.getNonPlayedCards() < currentHS){
             saveHS(presenter.getNonPlayedCards());
             showDialog(false, presenter.getNonPlayedCards());
@@ -387,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     }
 
     private void handleJoker(ImageView joker){
+        if (sp.getBoolean("sound", false)) mpJoker.start();
         joker.setBackgroundResource(0);
         joker.setEnabled(false);
         presenter.activateJoker();
@@ -401,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         playingCardRes = new int[]{R.drawable.card_ases, R.drawable.card_kings, R.drawable.card_queens, R.drawable.card_jays, R.drawable.card_tens, R.drawable.card_nines, R.drawable.card_eights, R.drawable.card_sevens, R.drawable.card_sixes, R.drawable.card_fives};
         playingCardColor = new int[]{Color.GREEN, Color.BLUE, Color.WHITE, Color.WHITE, Color.BLUE, Color.WHITE, Color.WHITE, Color.YELLOW, Color.RED, Color.BLUE};
         catsRes = new int[]{R.drawable.cats_0, R.drawable.cats_1, R.drawable.cats_2, R.drawable.cats_3, R.drawable.cats_4, R.drawable.cats_5, R.drawable.cats_6, R.drawable.cats_7, R.drawable.cats_8, R.drawable.cats_9};
-        catsColor = new int[]{Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
+        catsColor = new int[]{Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
         if (backgroundCardMode == FOALS){
             currentSetOfDesign = foalsRes;
             currentSetOfColors = foalsColor;
@@ -421,5 +430,29 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         displayPlayerCards();
         int remainingCards = presenter.getRemainingCards();
         this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+    }
+
+    private void setUpMp(){
+        mpWin = MediaPlayer.create(this, R.raw.win);
+        mpWin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mpWin.release();
+            }
+        });
+        mpLose = MediaPlayer.create(this, R.raw.lose);
+        mpLose.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mpLose.release();
+            }
+        });
+        mpJoker = MediaPlayer.create(this, R.raw.joker);
+        mpJoker.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mpJoker.release();
+            }
+        });
     }
 }
