@@ -9,10 +9,10 @@ public class Presenter {
     private Game game;
     private ViewInterface view;
 
-    public Presenter(ViewInterface view, int difficulty){
+    public Presenter(ViewInterface view, int difficulty, int challenge){
         this.view = view;
         if (difficulty == 1) difficulty = 2;
-        game = new Game(this, difficulty);
+        game = new Game(this, difficulty, challenge);
     }
 
     public List<Integer> getCards(){

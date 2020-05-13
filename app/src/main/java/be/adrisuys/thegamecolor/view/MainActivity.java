@@ -30,6 +30,25 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private ImageView jokerOne, jokerTwo, jokerThree;
     private Button deck;
 
+    private int[] foalsRes;
+    private int[] foalsColor;
+    private int[] playingCardRes;
+    private int[] playingCardColor;
+    private int[] catsRes;
+    private int[] catsColor;
+
+    private int[] currentSetOfDesign;
+    private int[] currentSetOfColors;
+    public static int FOALS = 1;
+    public static int CARD = 2;
+    public static int CATS = 3;
+    private int backgroundCardMode;
+
+    private int challenge;
+    private int playMode;
+    public static int CLASSIC = 1;
+    public static int CHALLENGE = 2;
+
     private int jokerCounter;
     private Presenter presenter;
     private int chosenCardIndex;
@@ -44,15 +63,19 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         sp = getApplicationContext().getSharedPreferences("4stairs", MODE_PRIVATE);
         editor = sp.edit();
         difficulty = getIntent().getIntExtra("difficulty", 2);
+        challenge = getIntent().getIntExtra("challenge", -1);
+        if (challenge == -1){
+            playMode = CLASSIC;
+        } else {
+            playMode = CHALLENGE;
+            difficulty = 2;
+        }
+        backgroundCardMode = sp.getInt("mode", FOALS);
+        setCardDesignGroups();
         setupLinearLayouts();
         setupButton();
         setUpMiddleElement();
-        presenter = new Presenter(this, difficulty);
-        chosenCardIndex = -1;
-        jokerCounter = 0;
-        displayPlayerCards();
-        int remainingCards = presenter.getRemainingCards();
-        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
+        setupGame();
     }
 
     public void onSelectCard(View view){
@@ -117,8 +140,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         if (presenter.getNonPlayedCards() < currentHS){
             saveHS(presenter.getNonPlayedCards());
             showDialog(false, presenter.getNonPlayedCards());
+        } else {
+            showDialog(false, -1);
         }
-        showDialog(false, -1);
     }
 
     @Override
@@ -186,47 +210,10 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         if (integer == -1){
             card.setText("");
         } else {
-            switch (integer / 10){
-                case 0:
-                    card.setBackgroundResource(R.drawable.zeros);
-                    card.setTextColor(Color.BLUE);
-                    break;
-                case 1:
-                    card.setBackgroundResource(R.drawable.tens);
-                    card.setTextColor(Color.BLACK);
-                    break;
-                case 2:
-                    card.setBackgroundResource(R.drawable.twenties);
-                    card.setTextColor(Color.WHITE);
-                    break;
-                case 3:
-                    card.setBackgroundResource(R.drawable.thirties);
-                    card.setTextColor(Color.WHITE);
-                    break;
-                case 4:
-                    card.setBackgroundResource(R.drawable.forties);
-                    card.setTextColor(Color.RED);
-                    break;
-                case 5:
-                    card.setBackgroundResource(R.drawable.fifties);
-                    card.setTextColor(Color.WHITE);
-                    break;
-                case 6:
-                    card.setBackgroundResource(R.drawable.sixties);
-                    card.setTextColor(Color.WHITE);
-                    break;
-                case 7:
-                    card.setBackgroundResource(R.drawable.seventies);
-                    card.setTextColor(Color.BLACK);
-                    break;
-                case 8:
-                    card.setBackgroundResource(R.drawable.eighties);
-                    card.setTextColor(Color.WHITE);
-                    break;
-                case 9:
-                    card.setBackgroundResource(R.drawable.nineties);
-                    card.setTextColor(Color.WHITE);
-                    break;
+            int tmp = integer / 10;
+            if (tmp >= 0 && tmp < 10){
+                card.setBackgroundResource(currentSetOfDesign[tmp]);
+                card.setTextColor(currentSetOfColors[tmp]);
             }
         }
     }
@@ -287,7 +274,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     }
 
     private int getCurrentHS(){
-        if (difficulty == 2){
+        if (difficulty == 1){
+            return sp.getInt("hs_super_easy", 98);
+        } else if (difficulty == 2){
             return sp.getInt("hs_easy", 98);
         } else if (difficulty == 3){
             return sp.getInt("hs_avg", 98);
@@ -298,15 +287,25 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     private void showDialog(boolean won, int hs){
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_dialog);
+        dialog.setContentView(R.layout.custom_dialog_win_lose);
         TextView title = dialog.findViewById(R.id.title);
         TextView message = dialog.findViewById(R.id.message);
         ImageView icon = dialog.findViewById(R.id.icon);
         TextView button = dialog.findViewById(R.id.btn);
         title.setText(won ? "Congrats !" : "No move possible");
-        String msg = "";
-        if (!won && hs != -1){
-            msg = "New Highscore : " + hs;
+        String msg;
+        if (playMode == CHALLENGE && won){
+            msg = "Challenge n°" + challenge + " done!";
+        } else {
+            if (won){
+                msg = "";
+            } else {
+                if (hs == -1){
+                    msg = "";
+                } else {
+                    msg = "New Highscore : " + hs;
+                }
+            }
         }
         message.setText(msg);
         icon.setBackgroundResource(won ? R.drawable.ic_sentiment_very_satisfied_black_24dp : R.drawable.ic_sentiment_dissatisfied_black_24dp);
@@ -344,25 +343,33 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     }
 
     private void saveHS(int newScore){
-        if (difficulty == 1){
-          editor.putInt("hs_super_easy", newScore);
-          if (newScore == 0){
-              editor.putInt("win_super_easy", sp.getInt("win_super_easy", 0) + 1);
-          }
-        } else if (difficulty == 2){
-            editor.putInt("hs_easy", newScore);
-            if (newScore == 0){
-                editor.putInt("win_easy", sp.getInt("win_easy", 0) + 1);
+        if (playMode == CHALLENGE){
+            int previousChallengeMade = sp.getInt("challenge", 15);
+            if (challenge > previousChallengeMade){
+                editor.putInt("challenge", challenge);
             }
-        } else if (difficulty == 3){
-            editor.putInt("hs_avg", newScore);
-            if (newScore == 0){
-                editor.putInt("win_avg", sp.getInt("win_avg", 0) + 1);
-            }
+
         } else {
-            editor.putInt("hs_hard", newScore);
-            if (newScore == 0){
-                editor.putInt("win_hard", sp.getInt("win_hard", 0) + 1);
+            if (difficulty == 1){
+                editor.putInt("hs_super_easy", newScore);
+                if (newScore == 0){
+                    editor.putInt("win_super_easy", sp.getInt("win_super_easy", 0) + 1);
+                }
+            } else if (difficulty == 2){
+                editor.putInt("hs_easy", newScore);
+                if (newScore == 0){
+                    editor.putInt("win_easy", sp.getInt("win_easy", 0) + 1);
+                }
+            } else if (difficulty == 3){
+                editor.putInt("hs_avg", newScore);
+                if (newScore == 0){
+                    editor.putInt("win_avg", sp.getInt("win_avg", 0) + 1);
+                }
+            } else {
+                editor.putInt("hs_hard", newScore);
+                if (newScore == 0){
+                    editor.putInt("win_hard", sp.getInt("win_hard", 0) + 1);
+                }
             }
         }
         editor.commit();
@@ -386,5 +393,33 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
         for (LinearLayout ll : middleContainers){
             ll.setBackgroundColor(generateColor(255,0,255));
         }
+    }
+
+    private void setCardDesignGroups(){
+        foalsRes = new int[]{R.drawable.foals_zeros, R.drawable.foals_tens, R.drawable.foals_twenties, R.drawable.foals_thirties, R.drawable.foals_forties, R.drawable.foals_fifties, R.drawable.foals_sixties, R.drawable.foals_seventies, R.drawable.foals_eighties, R.drawable.foals_nineties};
+        foalsColor = new int[]{Color.BLUE, Color.BLACK, Color.WHITE, Color.WHITE, generateColor(230, 32, 101), Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, Color.WHITE};
+        playingCardRes = new int[]{R.drawable.card_ases, R.drawable.card_kings, R.drawable.card_queens, R.drawable.card_jays, R.drawable.card_tens, R.drawable.card_nines, R.drawable.card_eights, R.drawable.card_sevens, R.drawable.card_sixes, R.drawable.card_fives};
+        playingCardColor = new int[]{Color.GREEN, Color.BLUE, Color.WHITE, Color.WHITE, Color.BLUE, Color.WHITE, Color.WHITE, Color.YELLOW, Color.RED, Color.BLUE};
+        catsRes = new int[]{R.drawable.cats_0, R.drawable.cats_1, R.drawable.cats_2, R.drawable.cats_3, R.drawable.cats_4, R.drawable.cats_5, R.drawable.cats_6, R.drawable.cats_7, R.drawable.cats_8, R.drawable.cats_9};
+        catsColor = new int[]{Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
+        if (backgroundCardMode == FOALS){
+            currentSetOfDesign = foalsRes;
+            currentSetOfColors = foalsColor;
+        } else if (backgroundCardMode == CARD){
+            currentSetOfDesign = playingCardRes;
+            currentSetOfColors = playingCardColor;
+        } else if (backgroundCardMode == CATS){
+            currentSetOfColors = catsColor;
+            currentSetOfDesign = catsRes;
+        }
+    }
+
+    private void setupGame(){
+        presenter = new Presenter(this, difficulty, challenge);
+        chosenCardIndex = -1;
+        jokerCounter = 0;
+        displayPlayerCards();
+        int remainingCards = presenter.getRemainingCards();
+        this.remainingCards.setText("Remaining cards in deck : " + remainingCards);
     }
 }

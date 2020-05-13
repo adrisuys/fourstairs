@@ -19,6 +19,8 @@
         <activity android:name=".view.MainActivity"/>
         <activity android:name=".view.InfoActivity"/>
         <activity android:name=".view.BadgesActivity"/>
+        <activity android:name=".view.ChallengeActivity"/>
+        <activity android:name=".view.SettingsActivity"/>
     </application>
 
 </manifest>

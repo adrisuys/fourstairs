@@ -8,8 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
 import be.adrisuys.thegamecolor.R;
 
 public class BadgesActivity extends AppCompatActivity {

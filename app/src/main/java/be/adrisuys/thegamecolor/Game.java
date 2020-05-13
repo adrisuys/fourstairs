@@ -14,12 +14,16 @@ public class Game {
     private int minCardPlayedPerRound;
     private boolean isJokerActivated;
 
-    public Game(Presenter presenter, int i){
+    public Game(Presenter presenter, int i, int challenge){
         clusters = new int[]{-1, -1, -1, -1};
         deck = new ArrayList<>();
         cards = new ArrayList<>();
         this.presenter = presenter;
-        generateDeck();
+        if (challenge == -1) {
+            generateDeck(98);
+        } else {
+            generateDeck(challenge);
+        }
         drawCards();
         nbCardPlayedPerRound = 0;
         minCardPlayedPerRound = i;
@@ -170,8 +174,8 @@ public class Game {
         }
     }
 
-    private void generateDeck() {
-        for (int i = 2; i < 100; i++){
+    private void generateDeck(int max) {
+        for (int i = 2; i < max + 2; i++){
             deck.add(i);
         }
         Collections.shuffle(deck);

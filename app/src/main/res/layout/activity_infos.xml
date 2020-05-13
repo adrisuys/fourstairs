@@ -14,13 +14,13 @@
         android:layout_marginBottom="50dp"
         android:textColor="#1C276F"
         android:fontFamily="@font/poplar"
-        android:text="HIGHSCORES"/>
+        android:text="INFORMATIONS"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textColor="#000"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/poplar"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="#000"
             android:fontFamily="@font/poplar"
             android:text="Super Easy : 2"/>
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="#000"
             android:fontFamily="@font/poplar"
             android:text="Easy : 2"/>
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="#000"
             android:fontFamily="@font/poplar"
             android:text="Average : 3"/>
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="#000"
             android:fontFamily="@font/poplar"
             android:text="Hard : 3"/>
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textColor="#000"
         android:fontFamily="@font/poplar"
         android:text="With the Super Easy mode, you'll get 3 jokers. By activating a joker, you'll be able to play any card on any pile."/>
